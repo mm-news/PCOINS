@@ -8,4 +8,4 @@
 2. psycopg2
 3. flask
 4. flask-login
-5. ~dnslib~mitmproxy
+5. ~dnslib~ mitmproxy
