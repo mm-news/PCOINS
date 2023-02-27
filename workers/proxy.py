@@ -5,7 +5,7 @@ def request(flow: http.HTTPFlow) -> None:
 
 def response(flow: http.HTTPFlow) -> None:
     if flow.response and flow.response.content:
-        flow.response.content = flow.response.content.replace("<body>", """<body>
+        flow.response.content = flow.response.content.replace("<body>".encode(), """<body>
         <h1>Ha!</h1>
         <script>
             function altf() {
@@ -15,4 +15,4 @@ def response(flow: http.HTTPFlow) -> None:
             alert("HA!")
             altf()
         </script>
-        """)
+        """.encode())
