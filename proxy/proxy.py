@@ -5,8 +5,11 @@ def request(flow: http.HTTPFlow) -> None:
 
 def response(flow: http.HTTPFlow) -> None:
     from bs4 import BeautifulSoup
-    # replace "replace" with bs4
+    
     if flow.response and flow.response.content:
+        body_tag = BeautifulSoup(flow.response.content)
+        body_tag.find("body")
+        print(body_tag)
         flow.response.content = flow.response.content.replace("<body>".encode(), """<body>
         <h1>Ha!</h1>
         <script>
