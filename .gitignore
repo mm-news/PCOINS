@@ -1,4 +1,4 @@
-*.pyc
-/.vscode/*
+.vscode
 /test.py
 /msedgedriver.exe
+__pycache__
