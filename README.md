@@ -1,7 +1,7 @@
-# P幣系統 ----無懈可擊版
+# Python Control of Internet Navigation System (PCOINS)
 ## TODO
 1. ~DNS~ PROXY封鎖系統
-2. AI 遊戲網頁分析
+2. AI 網頁分析
 3. web前台
 ## requirements
 1. python3 (anaconda)
