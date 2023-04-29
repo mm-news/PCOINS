@@ -1,4 +1,6 @@
 .vscode
-/test.py
+test.*
 /msedgedriver.exe
 __pycache__
+ca_key
+chromedriver.exe
