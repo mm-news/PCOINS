@@ -1,3 +1,4 @@
 host,level,reason,comment
-example.com,0,test,test
-google.com,-1,test,test
+example.com,-1,example,blocks "example.google.com"
+[re]*.google.com,1,example,blocks all hosts ends with "google.com"
+duck,3,example,blocks all hosts include "duck"
