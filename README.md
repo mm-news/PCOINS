@@ -57,10 +57,28 @@ If the level is -1, the program will stop checking and allow the request.
 
 ### Column: Reason
 
-e.g. game, education, etc.  
+e.g. games, education, etc.  
 The reason the website is blocked (or allowed). (String)
 
 ### Column: Comment
 
 e.g. for testing, etc.  
 Other comments. (String)
+
+## config.ini
+
+### Section: \[string\]
+
+#### Option: message_when_blocked
+
+The message will be shown when the website is blocked. (String)
+
+### Section: \[files\]
+
+#### Option: replace.txt
+
+The file content will be added to the end of the blocked website. (String)
+
+#### Option: hosts.csv
+
+The file path of the hosts.csv. (String)
