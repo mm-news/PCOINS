@@ -1,9 +1,3 @@
+<message_block>
 <h1>{message}</h1>
-<script>
-    function altf() {
-        alert({message})
-        altf()
-    };
-    alert({message});
-    altf();
-</script>
+</message_block>
