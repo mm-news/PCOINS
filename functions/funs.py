@@ -4,8 +4,7 @@ from re import error as re_error
 from re import compile as re_compile
 from re import search
 from pandas import read_csv
-from errors import *
-
+from functions.errors import HostsListError
 
 def getconfig(area: str, name: str):
     """Get config from config.ini."""
@@ -23,7 +22,7 @@ def getconfig(area: str, name: str):
 def edit_html(html: bytes) -> bytes:
     """Edit html if blocked."""
 
-    body_end = html.find(b'</body>')
+    body_end = html.rfind(b"</body>")
     replace = open(getconfig("files", "replace.txt",)[
                    1:-1]
                 , encoding="utf-8")\
@@ -38,8 +37,10 @@ def edit_html(html: bytes) -> bytes:
         alert({message})
         altf()
     };
-    alert({message});
-    altf();
+    window.onload = function() {
+        document.body.style.filter = "blur(5px)";
+        window.setTimeout(altf, 500);
+    };
 </script>""".replace("{message}", getconfig("string", "message_when_blocked"))
     return html[:body_end] + replace.encode() + html[body_end:]
 
