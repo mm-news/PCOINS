@@ -1,10 +1,12 @@
 '''Proxy Scripts'''
 from re import error as re_error
 from mitmproxy import http
-import functions.functions as functions
+import functions.funs as functions
+
 
 def request(flow: http.HTTPFlow) -> None:
     '''request'''
+
 
 def response(flow: http.HTTPFlow) -> None:
     '''response'''
@@ -16,29 +18,29 @@ def response(flow: http.HTTPFlow) -> None:
 
         level = functions.get_level(host)
 
-        kill_html = functions.getconfig("blocking_options", "shutdown_html_when_blocked")
-        kill_other = functions.getconfig("blocking_options", "shutdown_other_things_when_blocked")
+        kill_html = functions.getconfig(
+            "blocking_options", "shutdown_html_when_blocked")
+        kill_other = functions.getconfig(
+            "blocking_options", "shutdown_other_things_when_blocked")
 
-        if (level > 0 and functions.getconfig("blocking_options", "refresh_interval_when_blocked") != "-1"):
-            if "Refresh" in flow.response.headers.keys():
-                flow.response.headers["Refresh"] = functions.getconfig("blocking_options", "refresh_interval")
-            else:
-                flow.response.headers["Refresh"] = functions.getconfig("blocking_options", "refresh_interval")
+        if (level > 0 and functions.getconfig("blocking_options", "refresh_interval") != "-1"):
+            flow.response.headers["refresh"] = functions.getconfig(
+                "blocking_options", "refresh_interval")
 
         match level:
             case -3:
-                print(-3) #debug
+                print(-3)  # debug
             case -2:
-                print(-2) #debug
+                print(-2)  # debug
                 return
             case -1:
-                print(-1) #debug
+                print(-1)  # debug
                 return
             case 0:
-                print(0) #debug
+                print(0)  # debug
                 return
             case 1:
-                print(1) #debug
+                print(1)  # debug
                 if "text/html" in flow.response.headers["content-type"]:
                     if kill_html == "1":
                         flow.kill()
@@ -47,7 +49,7 @@ def response(flow: http.HTTPFlow) -> None:
                     flow.kill()
                 return
             case 2:
-                print(2) #debug
+                print(2)  # debug
                 if "text/html" in flow.response.headers["content-type"]:
                     if kill_html == "1":
                         flow.kill()
@@ -56,7 +58,7 @@ def response(flow: http.HTTPFlow) -> None:
                     flow.kill()
                 return
             case 3:
-                print(3) #debug
+                print(3)  # debug
                 if "text/html" in flow.response.headers["content-type"]:
                     if kill_html == "1":
                         flow.kill()

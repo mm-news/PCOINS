@@ -1,22 +1,15 @@
 """All functions for the program are here."""
-from configparser import ConfigParser
 from re import error as re_error
 from re import compile as re_compile
 from re import search
 from pandas import read_csv
 from functions.errors import HostsListError
+from functions.cron import global_configs
 
-def getconfig(area: str, name: str):
-    """Get config from config.ini."""
-    config = ConfigParser()
-    config.read("./config.ini")
 
-    if area != "" and name != "":
-        return config[area][name]
-    elif name != "":
-        return config[area]
-    else:
-        return config
+def getconfig(section: str, key: str):
+    """Get configs."""
+    return global_configs[section][key]
 
 
 def edit_html(html: bytes) -> bytes:
@@ -24,12 +17,11 @@ def edit_html(html: bytes) -> bytes:
 
     body_end = html.rfind(b"</body>")
     replace = open(getconfig("files", "replace.txt",)[
-                   1:-1]
-                , encoding="utf-8")\
-                .read()\
-                .replace("{message}", getconfig("string", "message_when_blocked"))\
-                .replace("<message_block>", "")\
-                .replace("</message_block>", "")
+                   1:-1], encoding="utf-8")\
+        .read()\
+        .replace("{message}", getconfig("string", "message_when_blocked"))\
+        .replace("<message_block>", "")\
+        .replace("</message_block>", "")
 
     if getconfig("blocking_options", "infinite_alert_loop") == "1":
         replace = replace + """<script>
@@ -61,11 +53,13 @@ def get_hosts_csv() -> dict:
         if i[0].endswith("/"):
             raise HostsListError(f"Hosts list ends with / in {i[0]}")
         if i[1] not in [-3, -2, -1, 0, 1, 2, 3]:
-            raise HostsListError(f"Hosts list contains invalid level in {i[0]}")
+            raise HostsListError(
+                f"Hosts list contains invalid level in {i[0]}")
         if not isinstance(i[0], str):
             raise HostsListError(f"Hosts list contains invalid host in {i[0]}")
         if not isinstance(i[1], int):
-            raise HostsListError(f"Hosts list contains invalid level in {i[0]}")
+            raise HostsListError(
+                f"Hosts list contains invalid level in {i[0]}")
         if i[0].startswith("[re]"):
             try:
                 re_compile(i[0].replace("[re]", ""))
@@ -89,7 +83,8 @@ def get_level(host: str) -> int:
         replace("https://", "").\
         removesuffix("/")
 
-    formatting_host = lambda host : (host.startswith("[re]"), host.replace("[re]", ""))
+    def formatting_host(host): return (
+        host.startswith("[re]"), host.replace("[re]", ""))
 
     for hostname, content in hosts.items():
         host_level = content["level"]
