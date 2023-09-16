@@ -76,3 +76,5 @@ def set_stop_cron():
 
 
 refresh_configs()
+# TODO: REMEMBER to close replace.txt in the function!!!
+# TODO: start_cron is incompeleted
