@@ -4,3 +4,5 @@ test.*
 __pycache__
 ca_key
 chromedriver.exe
+Pipfile
+Pipfile.lock
