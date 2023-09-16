@@ -65,20 +65,41 @@ The reason the website is blocked (or allowed). (String)
 e.g. for testing, etc.  
 Other comments. (String)
 
-## config.ini
+## How to config config.ini
 
 ### Section: \[string\]
 
-#### Option: message_when_blocked
+| Name |  Type  | Required | Default | Description |
+|:-----|:-------|:--------:|:-------:|:------------|
+| message_when_blocked | String |    *     | "You were blocked from accessing this website." | The message will be shown when the website is blocked. |
 
-The message will be shown when the website is blocked. (String)
+### Section: \[numbers\]
+
+| Name |  Type  | Required | Default | Description |
+|:-----|:-------|:--------:|:-------:|:------------|
+| config_refresh_interval | Integer |    *     | 30 | The interval of refreshing the config file (in minutes). |
+| replace_refresh_interval | Integer |    *     | 3 | The interval of refreshing the replace.txt file (in minutes). |
 
 ### Section: \[files\]
 
-#### Option: replace.txt
+| Name |  Type  | Required | Default | Description |
+|:-----|:-------|:--------:|:-------:|:------------|
+| replace.txt | Path |    *     | replace.txt | The path of the replace.txt file. |
+| host_list | Path |    *     | hosts.csv | The path of the hosts.csv file. |
 
-The file content will be added to the end of the blocked website. (String)
+### Section: \[blocking_options\]
 
-#### Option: hosts.csv
+| Name |  Type  | Required | Default | Description |
+|:-----|:-------|:--------:|:-------:|:------------|
+| shutdown_html_when_blocked | Boolean(0/1) |    *     | 0 | Whether to shutdown the html when blocked. |
+| shutdown_other_things_when_blocked | Boolean(0/1) |    *     | 0 | Whether to shutdown all other things when blocked.(including html, headers, etc.) |
+| infinite_alert_loop | Boolean(0/1) |    *     | 1 | Whether to alert the user infinitely so the user can't access the website normally. (If the user turned of JavaScript, this option will be useless.) |
+| cover_window | Boolean(0/1) |    *     | 1 | Whether to cover the window with a blur div. |
+| refresh_interval | Integer |    -     | 5 | The interval of refreshing the website to make sure the user can't access the website normally. (in seconds) |
 
-The file path of the hosts.csv. (String)
+### Section: \[mode\]
+
+| Name |  Type  | Required | Default | Description |
+|:-----|:-------|:--------:|:-------:|:------------|
+| blacklist_mode | Boolean(0/1) |    *     | 1 | PCOINS will only block the websites with level >= 1. |
+| whitelist_mode | Boolean(0/1) |    *     | 0 | PCOINS will only allow the websites with level <= 1. |
