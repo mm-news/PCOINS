@@ -77,8 +77,9 @@ Other comments. (String)
 
 | Name |  Type  | Required | Default | Description |
 |:-----|:-------|:--------:|:-------:|:------------|
-| config_refresh_interval | Integer |    *     | 30 | The interval of refreshing the config file (in minutes). |
-| replace_refresh_interval | Integer |    *     | 3 | The interval of refreshing the replace.txt file (in minutes). |
+| config_refresh_interval | Integer |    *     | 3 | The interval of refreshing the config file (in minutes).  Set this to -1 to disable refreshing. **cron.py will not refresh this option automatically.** |
+| replace_refresh_interval | Integer |    *     | 3 | The interval of refreshing the replace.txt file (in minutes).  Set this to -1 to disable refreshing. **cron.py will not refresh this option automatically.** |
+| hosts_refresh_interval | Integer |    *     | 3 | The interval of refreshing the hosts.csv file (in minutes).  Set this to -1 to disable refreshing. **cron.py will not refresh this option automatically.** |
 
 ### Section: \[files\]
 

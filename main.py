@@ -6,18 +6,20 @@ import time
 import sys
 from mitmproxy.tools.main import mitmdump
 
-print("""
+sys.dont_write_bytecode = True
+
+print("""\x1b[1;32;40m
 
     ______    _____    ____    _____  __    __  ______ 
    |  ___ \  /  ___| /  ___ \ |_   _||  \  | | / _____\ 
-   | |___| ||  /    | /  _ \ |  | |  | \ \ | |/ /______ 
-  _|  ____/_| |     | | |_|| |  | |  | |\ \| |\______  \    ________ 
- / | |     /|  \___ | \____/ | _| |_ | | \ \ | _____/  /  / v0.1.0 / 
+   | |___| ||  /    / /  _ \ \  | |  | \ \ | |/ /______ 
+  _|  ____/_| |    | |  |_| | | | |  | |\ \| |\______  \    ________ 
+ / | |     /|  \___ \ \____/ / _| |_ | | \ \ | _____/  /  / v0.1.0 / 
 /__|_|____/__\_____|_\______/_|_____||_|__\_\|_\______/__/________/ 
 
-""")
+\x1b[0m""")
 
-# input("Please remember to run web_worker.py! If you did, press ENTER> ")
+# input("Please remember to run web_worker.py! If you did, press ENTER> \n")
 
 # self-check
 print("==========================SELF-CHECK==========================")
@@ -38,7 +40,7 @@ try:
 
     # check hosts.csv
     print("Checking hosts.csv......\r", end="")
-    functions.get_hosts_csv()
+    functions.get_hosts()
     print("Checking hosts.csv......OK")
 except Exception as e:
     print(f"ERROR: {e}")
@@ -47,7 +49,7 @@ except Exception as e:
     raise SystemExit from e
 print("SELF-CHECK: OK")
 print("==============================================================")
-print("\nSelf-check finished. Starting proxy......\n")
+print("\nSelf-check finished. Starting......\n")
 print("==============================================================")
 
 print("Setting up proxy......\r", end="")
@@ -69,7 +71,7 @@ print("Starting cron......\r", end="")
 cron_worker.start()
 print("Starting cron......OK")
 
-print("Starting proxy......\r", end="")
+print("Starting proxy......")
 
 print("==============================================================\n")
 
@@ -78,13 +80,15 @@ start_proxy()
 wait_timer = 0.0
 print("Waiting for cron to stop......\r", end="")
 while cron_worker.is_alive():
-    print(f"Waiting for cron to stop......{wait_timer}sec.\r", end="")
+    print(
+        f"Waiting for cron to stop, \
+this might take about 30 seconds......{wait_timer:.1f}sec.\r", end="")
     cron.set_stop_cron()
-    if wait_timer >= 10:
-        print("Waiting for cron to stop......TIMEOUT")
+    if wait_timer >= 30:
+        print("Waiting for cron to stop......TIMEOUT"+" "*50)
         print("Please stop cron manually.")
         break
     time.sleep(0.5)
     wait_timer = wait_timer + 0.5
-print("Waiting for cron to stop......OK               ")
+print("Waiting for cron to stop......OK"+" "*50)
 sys.exit(0)
