@@ -1,17 +1,25 @@
 # Proxy-based Control Of Internet Navigation System (PCOINS)
 
+![GitHub](https://img.shields.io/github/license/Studio-Undefined/PCOINS?style=flat)
+![GitHub last commit](https://img.shields.io/github/last-commit/Studio-Undefined/PCOINS?style=flat)
+
+```text
+
+    ______    _____    ____    _____  __    __  ______  
+   |  ___ \  /  ___| /  ___ \ |_   _||  \  | | / _____\  
+   | |___| ||  /    / /  _ \ \  | |  | \ \ | |/ /______  
+  _|  ____/_| |    | |  |_| | | | |  | |\ \| |\______  \    ________  
+ / | |     /|  \___ \ \____/ / _| |_ | | \ \ | _____/  /  / v0.1.0 /  
+/__|_|____/__\_____|_\______/_|_____||_|__\_\|_\______/__/________/  
+
+```
+
 ## What Is This
 
 Proxy-based Control Of Internet Navigation System (PCOINS) is an AI-powered system to control students’ internet activity with mitmproxy.  
 In this system, you will have a website to access settings and students’ activity.  
 There will be an AI model that can identify whether the website that students going to is illegal or not, If the AI thinks the website is very likely illegal,  
 the AI will stop the request and replace it with a page so make teacher can preview the website and decide to let the student access the page or not.
-
-## TODO
-
-1. mitmproxy 控制系統
-2. AI 網頁分析
-3. web 前台
 
 ## Requirements
 
@@ -104,3 +112,9 @@ Other comments. (String)
 |:-----|:-------|:--------:|:-------:|:------------|
 | blacklist_mode | Boolean(0/1) |    *     | 1 | PCOINS will only block the websites with level >= 1. |
 | whitelist_mode | Boolean(0/1) |    *     | 0 | PCOINS will only allow the websites with level <= 1. |
+
+### Section: \[others\]
+
+| Name |  Type  | Required | Default | Description |
+|:-----|:-------|:--------:|:-------:|:------------|
+| colorful | Boolean(0/1) |    *     | 1 | COLORFUL output!  **The LOGO will be colorful even if this option is set to 0.** |

@@ -5,7 +5,7 @@ import datetime
 import time
 import sys
 from mitmproxy.tools.main import mitmdump
-
+from functions.custom_classes import ColorfulText, TextColors, colorful_print
 sys.dont_write_bytecode = True
 
 print("""\x1b[1;32;40m
@@ -21,38 +21,51 @@ print("""\x1b[1;32;40m
 
 # input("Please remember to run web_worker.py! If you did, press ENTER> \n")
 
+# Setup colorful text
+CC = ColorfulText
+ts = TextColors.TextStyle
+tc = TextColors.Color
+tbc = TextColors.BackgroundColor
+cp = colorful_print
+
 # self-check
-print("==========================SELF-CHECK==========================")
+print(CC("==========================SELF-CHECK==========================",
+      color=tc.Y))
 try:
-    print(f"TIME: {datetime.datetime.now().ctime()}")
+    print(f"{CC('TIME', color=tc.BL)}: {datetime.datetime.now().ctime()}")
 
     # check funs.py
 
-    print("Importing functions......")
+    cp("Importing functions......", "PROCESSING")
     import functions.funs as functions  # noqa: E402
-    print("Importing functions......OK")
+    cp("Importing functions......OK", "SUCCESS")
 
     # check files
-    print("Checking all files......\r", end="")
+    cp("Checking all files......\r", "PROCESSING", end="")
     open(functions.getconfig("files", "hosts_list")[1:-1], encoding="utf-8")
     open(functions.getconfig("files", "replace.txt")[1:-1], encoding="utf-8")
-    print("Checking all files......OK")
+    cp("Checking all files......OK", "SUCCESS")
 
     # check hosts.csv
-    print("Checking hosts.csv......\r", end="")
+    cp("Checking hosts.csv......\r", "PROCESSING", end="")
     functions.get_hosts()
-    print("Checking hosts.csv......OK")
+    cp("Checking hosts.csv......OK", "SUCCESS")
 except Exception as e:
-    print(f"ERROR: {e}")
-    print("==============================================================")
-    print("FAILED. Please fix the error and try again.")
+    cp(f"ERROR: {e}", "ERROR")
+    print(CC("==============================================================",
+          ts.B, tc.Y, tbc.BK))
+    cp("FAILED. Please fix the error and try again.",
+       "ERROR")
     raise SystemExit from e
-print("SELF-CHECK: OK")
-print("==============================================================")
-print("\nSelf-check finished. Starting......\n")
-print("==============================================================")
+cp("SELF-CHECK: OK", "SUCCESS")
+print(CC("==============================================================",
+      ts.B, tc.Y, tbc.BK))
+cp("\nSelf-check finished. Starting......\n", "PROCESSING")
+print(CC("==============================================================",
+      ts.B, tc.G, tbc.BK))
 
-print("Setting up proxy......\r", end="")
+cp("Setting up proxy......\r",
+   "PROCESSING", end="")
 
 
 def start_proxy():
@@ -60,35 +73,43 @@ def start_proxy():
     mitmdump(args=["-s", "./proxy/proxy.py"])
 
 
-print("Setting up cron......\r", end="")
+cp("Setting up cron......\r",
+   "PROCESSING", end="")
 # pylint: disable=import-outside-toplevel, wrong-import-position
 from functions import cron  # noqa: E402
 
 cron_worker = threading.Thread(target=cron.start_cron)
-print("Setting up cron......OK")
+cp("Setting up cron......OK",
+   "SUCCESS")
 
-print("Starting cron......\r", end="")
+cp("Starting cron......\r", "PROCESSING", end="")
 cron_worker.start()
-print("Starting cron......OK")
+cp("Starting cron......OK", "SUCCESS")
 
-print("Starting proxy......")
+cp("Starting proxy......", "PROCESSING")
 
-print("==============================================================\n")
+print(CC("==============================================================\n",
+      ts.B, tc.G, tbc.BK))
 
 start_proxy()
 
 wait_timer = 0.0
-print("Waiting for cron to stop......\r", end="")
+print(CC("Waiting for cron to stop......\r",
+      color=tc.C), end="")
 while cron_worker.is_alive():
     print(
-        f"Waiting for cron to stop, \
-this might take about 30 seconds......{wait_timer:.1f}sec.\r", end="")
+        CC(f"Waiting for cron to stop, \
+this might take about 30 seconds......{wait_timer:.1f}sec.\r",
+           color=tc.C), end="")
     cron.set_stop_cron()
     if wait_timer >= 30:
-        print("Waiting for cron to stop......TIMEOUT"+" "*50)
-        print("Please stop cron manually.")
+        cp("Waiting for cron to stop......TIMEOUT"+" "*50,
+            "ERROR")
+        cp("Please stop cron manually.",
+           "ERROR")
         break
     time.sleep(0.5)
     wait_timer = wait_timer + 0.5
-print("Waiting for cron to stop......OK"+" "*50)
+cp("Waiting for cron to stop......OK"+" "*50,
+   "SUCCESS")
 sys.exit(0)
