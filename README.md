@@ -86,7 +86,7 @@ Other comments. (String)
 | Name |  Type  | Required | Default | Description |
 |:-----|:-------|:--------:|:-------:|:------------|
 | get_data_function_on | Boolean(0/1) |    *     | 0 | Whether to get data from given url. |
-| get_by_ip | url |  -  | None | The url to get data by ip, ip address will be appended to the end of the url. |
+| get_by_ip | url |  -  | None | The url to get data by ip, ip address will be appended to the end of the url. The url should return 0 if the ip is not blocked, 1 if the ip is blocked. |
 
 ### Section: \[numbers\]
 
@@ -108,7 +108,7 @@ Other comments. (String)
 | Name |  Type  | Required | Default | Description |
 |:-----|:-------|:--------:|:-------:|:------------|
 | shutdown_html_when_blocked | Boolean(0/1) |    *     | 0 | Whether to shutdown the html when blocked. |
-| shutdown_other_things_when_blocked | Boolean(0/1) |    *     | 0 | Whether to shutdown all other things when blocked.(including html, headers, etc.) |
+| shutdown_all_things_when_blocked | Boolean(0/1) |    *     | 0 | Whether to shutdown all things when blocked.(including html, csv, websocket, etc.) |
 | infinite_alert_loop | Boolean(0/1) |    *     | 1 | Whether to alert the user infinitely so the user can't access the website normally. (If the user turned of JavaScript, this option will be useless.) |
 | cover_window | Boolean(0/1) |    *     | 1 | Whether to cover the window with a blur div. |
 | refresh_interval | Integer |    -     | 5 | The interval of refreshing the website to make sure the user can't access the website normally. (in seconds) |
