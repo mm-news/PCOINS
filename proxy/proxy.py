@@ -10,7 +10,7 @@ def request(flow: http.HTTPFlow) -> None:
     if functions.getconfig("get_data", "get_data_functions_on") == "0":
         return
     get_data_url = functions.getconfig(
-        "get_data", "get_by_ip")
+        "get_data", "get_by_ip")  # TODO: add cache
 
     with urllib.request.urlopen(get_data_url+flow.client_conn.ip_address) as response:
         content = response.read()
