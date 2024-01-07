@@ -1,11 +1,23 @@
 '''Proxy Scripts'''
 from re import error as re_error
 from mitmproxy import http
+from urllib import request
 import functions.funs as functions
 
 
 def request(flow: http.HTTPFlow) -> None:
     '''request'''
+    if functions.getconfig("get_data", "get_data_functions_on") == "0":
+        return
+    get_data_url = functions.getconfig(
+        "get_data", "get_by_ip")
+
+    with urllib.request.urlopen(get_data_url+flow.client_conn.ip_address) as response:
+        content = response.read()
+        if content == b"0":
+            return
+        else:
+            flow.kill()
 
 
 def response(flow: http.HTTPFlow) -> None:
@@ -21,7 +33,7 @@ def response(flow: http.HTTPFlow) -> None:
         kill_html = functions.getconfig(
             "blocking_options", "shutdown_html_when_blocked")
         kill_other = functions.getconfig(
-            "blocking_options", "shutdown_other_things_when_blocked")
+            "blocking_options", "shutdown_all_things_when_blocked")
 
         if (level > 0 and functions.getconfig("blocking_options", "refresh_interval") != "-1"):
             flow.response.headers["refresh"] = functions.getconfig(
