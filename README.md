@@ -81,6 +81,13 @@ Other comments. (String)
 |:-----|:-------|:--------:|:-------:|:------------|
 | message_when_blocked | String |    *     | "You were blocked from accessing this website." | The message will be shown when the website is blocked. |
 
+### Section: \[get_data\]
+
+| Name |  Type  | Required | Default | Description |
+|:-----|:-------|:--------:|:-------:|:------------|
+| get_data_function_on | Boolean(0/1) |    *     | 0 | Whether to get data from given url. |
+| get_by_ip | url |  -  | None | The url to get data by ip, ip address will be appended to the end of the url. |
+
 ### Section: \[numbers\]
 
 | Name |  Type  | Required | Default | Description |
