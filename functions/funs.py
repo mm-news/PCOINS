@@ -3,7 +3,7 @@ from re import error as re_error
 from re import compile as re_compile
 from re import search
 from functions.errors import HostsListError, ConfigNotFoundError
-from functions.cron import global_configs, global_replace, global_hosts
+from functions.cron import global_configs, global_replace, global_hosts, global_ip_dict
 
 
 def getconfig(section: str, key: str):
@@ -161,3 +161,17 @@ def dict_diff(old: dict, new: dict) -> dict:
         diff["deleted"][key] = old[key]
 
     return diff
+
+
+def adjust_ip(ip): # TODO: split it to adjust_ip and adjust_ip_by_url
+    if ip in global_ip_dict.keys():
+        return global_ip_dict[ip]
+
+    else:
+        get_data_url = functions.getconfig(
+            "get_data", "get_by_ip")  # TODO: add cache
+
+        with urllib.request.urlopen(get_data_url+ip) as response:
+            content = response.read()
+
+        return content == b"0" # TODO: save it to ip_tmp.csv if we got a result

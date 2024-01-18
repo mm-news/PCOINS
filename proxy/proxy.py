@@ -9,12 +9,8 @@ def request(flow: http.HTTPFlow) -> None:
     '''request'''
     if functions.getconfig("get_data", "get_data_functions_on") == "0":
         return
-    get_data_url = functions.getconfig(
-        "get_data", "get_by_ip")  # TODO: add cache
 
-    with urllib.request.urlopen(get_data_url+flow.client_conn.ip_address) as response:
-        content = response.read()
-        if content == b"0":
+        if content == b"0": # TODO: import adjust_ip
             return
         else:
             flow.kill()

@@ -8,6 +8,7 @@ from configparser import ConfigParser
 global_configs = None
 global_replace = None
 global_hosts = None
+global_ip_dict = None
 
 stop_cron = False
 
@@ -116,6 +117,39 @@ def refresh_hosts():
         return
 
 
+def refresh_ip_dict():
+    from functions.funs import adjust_ip  # noqa: E402
+
+    global global_ip_dict
+    global_ip_dict = {}
+    ip_dict_tmp = []
+    import csv
+
+    with open(global_configs["files"]["ip_tmp_list"][1:-1], encoding="utf-8") as f:
+        ip_dict_tmp = [i for i in csv.reader(f)]
+
+    ip_dict = {}
+    updated = 0
+
+    for i in global_ip_dict.keys():
+        a = adjust_ip(i)
+        if global_ip_dict[i] != a:
+            ip_dict[i] = a
+            updated += 1
+        else:
+            pass
+
+    for i in ip_dict_tmp:
+        ip_dict[i[0]] = i[1]
+        updated += 1
+
+    global_ip_dict = ip_dict
+
+    print(f"IP dict refreshed. {updated} IPs updated.")
+
+    return
+
+
 def format_host(host: list) -> dict:
     from functions.errors import HostsListError  # noqa: E402
     from re import error as re_error, compile as re_compile  # noqa: E402
@@ -161,9 +195,11 @@ def format_host(host: list) -> dict:
 
 def start_cron():
     """Start cron."""
-    ct = 0
-    rt = 0
-    ht = 0
+    ct = 0  # refresh configs
+    rt = 0  # refresh replace
+    ht = 0  # refresh hosts
+    it = 0  # refresh ip dict
+
     while True:
         if ct >= int(global_configs["numbers"]["config_refresh_interval"])*60 and \
                 int(global_configs["numbers"]["config_refresh_interval"]) != -1:
@@ -180,6 +216,11 @@ def start_cron():
             refresh_hosts()
             ht = 0
 
+        if it >= int(global_configs["numbers"]["ip_dict_refresh_interval"])*60 and \
+                int(global_configs["numbers"]["ip_dict_refresh_interval"]) != -1:
+            refresh_ip_dict()
+            it = 0
+
         if stop_cron:
             break
 
@@ -188,6 +229,7 @@ def start_cron():
         ct += 5
         rt += 5
         ht += 5
+        it += 5
 
 
 def set_stop_cron():

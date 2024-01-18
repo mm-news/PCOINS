@@ -94,7 +94,8 @@ Other comments. (String)
 |:-----|:-------|:--------:|:-------:|:------------|
 | config_refresh_interval | Integer |    *     | 3 | The interval of refreshing the config file (in minutes).  Set this to -1 to disable refreshing. **cron.py will not refresh this option automatically.** |
 | replace_refresh_interval | Integer |    *     | 3 | The interval of refreshing the replace.txt file (in minutes).  Set this to -1 to disable refreshing. **cron.py will not refresh this option automatically.** |
-| hosts_refresh_interval | Integer |    *     | 3 | The interval of refreshing the hosts.csv file (in minutes).  Set this to -1 to disable refreshing. **cron.py will not refresh this option automatically.** |
+| hosts_refresh_interval | Integer |    *     | 1 | The interval of refreshing the hosts.csv file (in minutes).  Set this to -1 to disable refreshing. **cron.py will not refresh this option automatically.** |
+| ip_dict_refresh_interval | Integer |    *     | 1 | The interval of reading the ip dict (in minutes).  Set this to -1 to disable refreshing. **cron.py will not refresh this option automatically.** |
 
 ### Section: \[files\]
 
